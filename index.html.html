@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Divya's Important Question 🛍️</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;background:linear-gradient(135deg,#ffd7e8,#e6ddff,#d9f5ff);overflow:hidden;color:#292333}.card{width:min(92%,440px);padding:30px 23px;text-align:center;background:#ffffffed;border-radius:28px;box-shadow:0 20px 60px #4b31552e;position:relative;z-index:2}.emoji{font-size:55px}h1{font-size:29px;margin:8px 0}p{font-size:17px;line-height:1.5}.buttons{height:105px;position:relative;margin-top:10px}button{border:0;border-radius:999px;padding:13px 23px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 7px 18px #0002}#yes{background:#ff4f91;color:white;margin-right:10px}#no{background:#eee;position:absolute;transition:.12s}.form{margin-top:18px;text-align:left}.form label{font-weight:700;display:block;margin:13px 0 6px}.form input{width:100%;padding:13px;border:2px solid #eaddea;border-radius:13px;font-size:16px}.submit{width:100%;background:#ff4f91;color:#fff;margin-top:18px}.success{font-weight:700;font-size:20px}.small{font-size:13px;color:#777}.error{color:#d72c54;font-size:14px;font-weight:700}.hidden{display:none}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#292333;color:white;padding:10px 16px;border-radius:20px;z-index:9}.float{position:fixed;bottom:-30px;font-size:25px;animation:up 4s linear forwards}@keyframes up{to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+.no-reaction{position:fixed;z-index:30;pointer-events:none;font-size:clamp(64px,18vw,120px);filter:drop-shadow(0 8px 12px #0003);animation:pop .65s ease-out forwards}
+@keyframes pop{0%{transform:scale(.25) rotate(-18deg);opacity:0}35%{transform:scale(1.25) rotate(10deg);opacity:1}70%{transform:scale(1)}100%{transform:scale(.92);opacity:0}}
+.flower{position:fixed;top:-50px;z-index:5;pointer-events:none;font-size:clamp(22px,6vw,36px);animation:shower linear forwards}
+@keyframes shower{to{transform:translateY(115vh) rotate(540deg);opacity:.2}}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+<div class="emoji">🚨👀</div>
+<h1>Divya Mam! Wait! 😳</h1>
+<p>Manish has <b>something important</b> to ask you...</p>
+<p>But first, you need to answer one very serious question. 😌</p>
+<p class="small">No skipping allowed. 😂</p>
+<div class="buttons"><button id="start">Okay, Ask Me 👀</button></div>
+</div>
+
+<script>
+const card=document.getElementById('card');
+const sad=['😢','😭','😤','😠','🥺','💔','😩','🙄'];
+let noCount=0;
+
+function showToast(t){
+ const x=document.createElement('div');x.className='toast';x.textContent=t;
+ document.body.appendChild(x);setTimeout(()=>x.remove(),1300);
+}
+
+document.getElementById('start').onclick=()=>{
+ card.innerHTML=`<div class="emoji">🛍️💖</div>
+ <h1>Okay... Here It Is! 😎</h1>
+ <p>Now for the <b>actual important question</b>...</p>
+ <p><b>Will you go shopping with Manish?</b> 🛒💸</p>
+ <p class="small">Choose carefully. Manish's happiness depends on this. 😂</p>
+ <div class="buttons"><button id="yes">YES 🥳</button><button id="no">NO 😒</button></div>`;
+ const no=document.getElementById('no');
+ const yes=document.getElementById('yes');
+ function moveNo(){
+   noCount++;
+   const margin=16;
+   const maxX=Math.max(margin,window.innerWidth-no.offsetWidth-margin);
+   const maxY=Math.max(margin,window.innerHeight-no.offsetHeight-margin);
+   no.style.position='fixed';no.style.zIndex='20';
+   no.style.left=(margin+Math.random()*(maxX-margin))+'px';
+   no.style.top=(margin+Math.random()*(maxY-margin))+'px';
+   const e=sad[noCount%sad.length];
+   showToast(e+' Manish is getting '+(noCount>2?'very ':'')+'sad! Try YES 😭');
+   no.textContent=e+' NO';
+   const reaction=document.createElement('div');
+   reaction.className='no-reaction'; reaction.textContent=e;
+   reaction.style.left=Math.max(8,Math.random()*(window.innerWidth-130))+'px';
+   reaction.style.top=Math.max(8,Math.random()*(window.innerHeight-140))+'px';
+   document.body.appendChild(reaction); setTimeout(()=>reaction.remove(),700);
+ }
+ ['mouseenter','touchstart','click'].forEach(ev=>no.addEventListener(ev,e=>{
+   if(ev==='click')e.preventDefault();moveNo();
+ }));
+ yes.onclick=showDatePage;
+};
+
+function showerFlowers(){
+ const petals=['🌸','🌺','🌼','💐','🌷','✨','💖'];
+ for(let i=0;i<70;i++)setTimeout(()=>{
+   const petal=document.createElement('div'); petal.className='flower';
+   petal.textContent=petals[Math.floor(Math.random()*petals.length)];
+   petal.style.left=Math.random()*100+'vw';
+   petal.style.animationDuration=(2.8+Math.random()*3.2)+'s';
+   document.body.appendChild(petal);setTimeout(()=>petal.remove(),6500);
+ },i*35);
+}
+function showDatePage(){
+ showerFlowers();
+ card.innerHTML=`<div class="emoji">🥳🛍️❤️</div>
+ <h1>Yessss! I knew it! 😂</h1>
+ <p class="success">Okay Divya, now let's make it official.</p>
+ <p>Pick <b>one date and time</b> for our shopping plan. 👇</p>
+ <div class="form">
+ <label for="date">📅 Date</label><input id="date" type="date">
+ <label for="time">⏰ Time</label><input id="time" type="time">
+ <div id="err" class="error"></div>
+ <button class="submit" id="submit">Confirm My Choice 💖</button></div>
+ <p class="small">Only dates from today until the end of this month are available. No time travelling! 😂</p>`;
+ const d=document.getElementById('date'),t=document.getElementById('time');
+ const now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),day=String(now.getDate()).padStart(2,'0');
+ d.min=`${y}-${m}-${day}`;
+ d.max=`${y}-${m}-${new Date(y,now.getMonth()+1,0).getDate()}`;
+ document.getElementById('submit').onclick=()=>{
+   const err=document.getElementById('err');
+   if(!d.value||!t.value){err.textContent='Please choose both a date and time 😄';return}
+   const chosen=new Date(d.value+'T'+t.value),current=new Date();
+   const max=new Date(y,now.getMonth()+1,0,23,59);
+   if(chosen<current){err.textContent='Previous dates are not allowed 😭';return}
+   if(chosen>max){err.textContent='Next month is not allowed 😤';return}
+   const pretty=new Date(d.value+'T12:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+   const selectedTime=new Date('2000-01-01T'+t.value).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+   const shareMessage=`Hey Manish! 😎🛍️ Divya Mam picked our shopping date! 📅 ${pretty} at ⏰ ${selectedTime}. Be ready! 😂💖`;
+   card.innerHTML=`<div class="emoji">🎉🛍️💖</div><h1>DONE! It's a plan! 😎</h1>
+   <p class="success">Divya Mam selected:<br>📅 ${pretty}<br>⏰ ${selectedTime}</p>
+   <p>Manish is now officially responsible for showing up on time. 😂</p>
+   <p>Shopping budget: <b>“We'll figure that out later.”</b> 💸🤣</p>
+   <button class="submit" id="sendChoice">📲 Send my choice to Manish</button>
+   <p class="small">Tap to share your selected date and time with Manish on WhatsApp or another app.</p>`;
+   document.getElementById('sendChoice').onclick=async()=>{
+     if(navigator.share){try{await navigator.share({title:'Our shopping plan 🛍️',text:shareMessage})}catch(e){}}
+     else{try{await navigator.clipboard.writeText(shareMessage);showToast('Choice copied! Paste it to Manish 💖')}catch(e){showToast('Please screenshot this confirmation and send it to Manish 📸')}}
+   };
+   for(let i=0;i<28;i++)setTimeout(()=>{
+    let f=document.createElement('div');f.className='float';
+    f.textContent=['💖','🎉','🛍️','✨'][Math.floor(Math.random()*4)];
+    f.style.left=Math.random()*100+'vw';
+    f.style.animationDuration=(2.5+Math.random()*2.5)+'s';
+    document.body.appendChild(f);setTimeout(()=>f.remove(),5500);
+   },i*70);
+ };
+}
+</script>
+</body>
+</html>
